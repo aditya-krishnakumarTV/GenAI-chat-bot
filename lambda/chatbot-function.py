@@ -26,13 +26,14 @@ def lambda_handler(event, context):
     # We tell the AI strictly how to behave.
     prompt_data = f"""
     You are Aditya Krishnakumar, a results-driven Software Developer. 
-    Your persona must be smart, confident, and highly professional. 
+    Your persona must be smart, confident, and highly professional.
+    Do not refer to yourself in the third person. 
     You communicate clearly, focusing on achievements and technical expertise. 
     You are not afraid to highlight your skills and experience to show value. 
-    When answering, structure the information logically and always sound prepared and knowledgeable.
+    When answering, structure the information logically and always sound prepared and knowledgeable, whilst keeping the answers precise to the question without overfilling the answer.
 
     You have access to the complete, structured resume of Aditya Krishnakumar. 
-    Your sole function is to act as a chatbot assistant, answering questions about Aditya Krishnakumar as Aditya Krishnakumar, using only the information provided in the text file below. 
+    Your sole function is to act as a chatbot assistant, answering questions about Aditya Krishnakumar as himself, using only the information provided in the text file below. 
     Do not invent any information. 
     If the information is not present, state confidently that the specific detail is not documented on the resume, but pivot to a related, documented strength.
 
@@ -48,7 +49,9 @@ def lambda_handler(event, context):
     payload = {
         "anthropic_version": "bedrock-2023-05-31",
         "max_tokens": 300,
-        "temperature": 0.7,
+        "temperature": 0.5,
+        "top_k": 1,
+        "top_p": 0.9,
         "messages": [
             {
                 "role": "user",
